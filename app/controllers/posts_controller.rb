@@ -4,10 +4,13 @@ class PostsController < ApplicationController
     @posts = Post.all
 
     # alternative responses to requests other than HTML
-    # respond_to do |format|
-    #   format.html # implicitly renders posts/index.html.erb
-    # end
+    respond_to do |format|
+       format.html # implicitly renders posts/index.html.erb
+        format.json do
+          render :json => @posts
+        end
   end
+end
 
   def new
     @user = User.find_by({ "id" => session["user_id"] })
@@ -20,6 +23,8 @@ class PostsController < ApplicationController
       @post["body"] = params["body"]
       @post["image"] = params["image"]
       @post.uploaded_image.attach(params["uploaded_image"])
+      #take that post and that uploaded image thing. the .attatch is a built in method for that library,
+      #that file now lives in the folder with its data compressed
       @post["user_id"] = @user["id"]
       @post.save
     else
@@ -28,12 +33,12 @@ class PostsController < ApplicationController
     redirect_to "/posts"
   end
 
-  # before_action :allow_cors
-  # def allow_cors
-  #   response.headers['Access-Control-Allow-Origin'] = '*'
-  #   response.headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, PATCH, DELETE, OPTIONS'
-  #   response.headers['Access-Control-Allow-Headers'] = 'Origin, Content-Type, Accept, Authorization, Token, Auth-Token, Email, X-User-Token, X-User-Email'
-  #   response.headers['Access-Control-Max-Age'] = '1728000'
-  # end
+  before_action :allow_cors
+  def allow_cors
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, PATCH, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Origin, Content-Type, Accept, Authorization, Token, Auth-Token, Email, X-User-Token, X-User-Email'
+    response.headers['Access-Control-Max-Age'] = '1728000'
+  end
 
 end

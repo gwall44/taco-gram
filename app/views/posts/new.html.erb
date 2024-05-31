@@ -1,5 +1,5 @@
 <h2>New Post</h2>
-
+<! encryption is for the transport of the packages-- --> 
 <% if @user != nil %>
   <form action="/posts" method="post" enctype="multipart/form-data">
     <div class="mb-3">
@@ -11,7 +11,7 @@
       <label for="image_input" class="form-label">Image URL</label>
       <input type="text" name="image" id="image_input" class="form-control">
     </div>
-
+<! when the type is file, modern browsers will know to look for that --> 
     <div class="mb-3">
       <label for="uploaded_image_input" class="form-label">Upload Image</label>
       <input type="file" name="uploaded_image" id="uploaded_image_input" class="form-control">
